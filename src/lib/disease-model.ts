@@ -158,7 +158,7 @@ export function predict(selected: SymptomId[]): Prediction[] {
   return scored
     .map((s, i) => ({
       disease: s.disease,
-      confidence: exps[i] / total,
+      confidence: (exps[i] ?? 0) / total,
       keySymptoms: selected
         .filter((id) => (s.disease.probs[id] ?? 0) >= 0.5)
         .sort((a, b) => (s.disease.probs[b] ?? 0) - (s.disease.probs[a] ?? 0))
