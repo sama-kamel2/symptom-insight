@@ -77,19 +77,22 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Smart Disease Predictor" },
+      {
+        name: "description",
+        content:
+          "An educational machine learning demo that estimates likely conditions from selected symptoms.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
+      { rel: "stylesheet", href: appCss },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: appCss,
+        href: "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap",
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
@@ -119,8 +122,44 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <div className="flex min-h-screen flex-col">
+        <header className="sticky top-0 z-30 border-b border-border/70 bg-background/85 backdrop-blur">
+          <nav className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-5 py-4">
+            <Link to="/" className="flex items-center gap-2.5">
+              <span className="grid h-9 w-9 place-items-center rounded-xl bg-hero text-primary-foreground">
+                <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M3 12h4l2 5 4-12 2 7h6" />
+                </svg>
+              </span>
+              <span className="font-display text-base font-semibold">Smart Disease Predictor</span>
+            </Link>
+            <div className="flex items-center gap-1 text-sm">
+              <Link to="/" className="rounded-lg px-3 py-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground" activeOptions={{ exact: true }} activeProps={{ className: "text-foreground bg-secondary" }}>
+                Home
+              </Link>
+              <Link to="/how-it-works" className="rounded-lg px-3 py-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground" activeProps={{ className: "text-foreground bg-secondary" }}>
+                How it works
+              </Link>
+              <Link to="/predict" className="ml-1 rounded-lg bg-primary px-3.5 py-2 font-medium text-primary-foreground transition-opacity hover:opacity-90">
+                Start
+              </Link>
+            </div>
+          </nav>
+        </header>
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <main className="flex-1">
+          <Outlet />
+        </main>
+        <footer className="border-t border-border/70 bg-surface">
+          <div className="mx-auto w-full max-w-6xl px-5 py-8 text-sm text-muted-foreground">
+            <p className="font-medium text-foreground">Educational project — not a medical service.</p>
+            <p className="mt-1 max-w-2xl">
+              Predictions come from a statistical model trained on a symptom dataset. They are not a
+              diagnosis. Always consult a qualified healthcare professional about your health.
+            </p>
+          </div>
+        </footer>
+      </div>
     </QueryClientProvider>
   );
 }
